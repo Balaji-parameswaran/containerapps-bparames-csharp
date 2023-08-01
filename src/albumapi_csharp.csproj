@@ -8,6 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+	  <Reference Include="System.IdentityModel">
+		  <HintPath>C:\path\to\System.IdentityModel.dll</HintPath>
+	  </Reference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
