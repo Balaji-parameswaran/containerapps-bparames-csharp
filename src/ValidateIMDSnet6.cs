@@ -3,10 +3,17 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Azure.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Identity.ServiceEssentials;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace albumapi_csharp.Controllers
 {
@@ -15,6 +22,51 @@ namespace albumapi_csharp.Controllers
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
             // Get the IMDS token from the header
+            ClaimsPrincipal claims = null;
+
+            StringValues authorizationHeader;
+            if (requestHeaders.TryGetValue("Authorization", out authorizationHeader))
+            {
+                string authorizationHeaderContent = authorizationHeader.FirstOrDefault();
+                if (!string.IsNullOrEmpty(authorizationHeaderContent) && authorizationHeaderContent.Contains("Bearer", StringComparison.InvariantCultureIgnoreCase))
+                {
+
+                    // Obtain http request data from your stack
+                    var httpRequestData = new HttpRequestData();
+                    httpRequestData.Headers.Add("Authorization", authorizationHeaderContent);
+
+                    /*** 1. create mise http context object (for each request) ***/
+                    var context = new MiseHttpContext(httpRequestData) { };
+
+                    /*** 2. execute mise (for each request) ***/
+                    var miseResult = await this.MiseHost.HandleAsync(context, cancellationToken).ConfigureAwait(false);
+
+                    /*** 3. examine results (for each request) ***/
+                    if (miseResult.Succeeded)
+                    {
+                        logger.LogInformation($"Request {trackingContext.RequestId} was validated successfully.");
+                        claims = new ClaimsPrincipal(miseResult.AuthenticationTicket.SubjectIdentity ?? miseResult.AuthenticationTicket.ActorIdentity);
+                    }
+                    else
+                    {
+                        logger.LogInformation($"Validation for request {trackingContext.RequestId} failed with Exception: {miseResult.Failure}");
+
+                        /*** 3.2 examine failure, and/or http response produced by a module that failed to handle the request ***/
+                        var moduleCreatedFailureResponse = miseResult.MiseContext.ModuleFailureResponse;
+                        if (moduleCreatedFailureResponse != null)
+                        {
+                            logger.LogInformation($"Request {trackingContext.RequestId} returned HTTP status code: {moduleCreatedFailureResponse.StatusCode}");
+
+                        }
+                    }
+                }
+            }
+            else
+            {
+                logger.LogError($"Failed to get the authorization headers for request {trackingContext.RequestId}");
+            }
+            return claims;
+            /*
             var imdsToken = context.HttpContext.Request.Headers["Authorization"].FirstOrDefault();
             if (string.IsNullOrEmpty(imdsToken))
             {
@@ -84,6 +136,6 @@ namespace albumapi_csharp.Controllers
                 return;
             }
 
+        }*/
         }
-    }
 }
