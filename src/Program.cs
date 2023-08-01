@@ -30,6 +30,30 @@ app.MapGet("/", async context =>
     await context.Response.WriteAsync("Hit the /albums endpoint to retrieve a list of albums!");
 });
 
+app.MapGet("/imds", async context =>
+{
+    // Get the Authorization header
+    var authorizationHeader = context.Request.Headers.Authorization;
+
+    // Check if the Authorization header is not null and has a value
+    if (!String.IsNullOrEmpty(authorizationHeader))
+    {
+        // Get the authorization header content
+        var authorizationHeaderContent = authorizationHeader.ToString();
+
+        // Check if the authorization header content contains "Bearer"
+        if (authorizationHeaderContent.Contains("Bearer"))
+        {
+            await context.Response.WriteAsync("There is a bearer token");
+        }
+        else
+        {
+            await context.Response.WriteAsync("There is no bearer");
+        }
+    }
+    await context.Response.WriteAsync("There is no auth header 2");
+});
+
 app.MapGet("/albums", () =>
 {
     return Album.GetAll();
