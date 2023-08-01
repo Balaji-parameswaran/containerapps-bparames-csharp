@@ -7,9 +7,11 @@ namespace IMDSValidation
 {
     class ValidateIMDSContainerApp
     {
-        public static ClaimsPrincipal ValidateIMDS(string token)
+        public async Task<ClaimsPrincipal> ValidateIMDS(string token)
         {
-            // Create a JwtSecurityTokenHandler object
+            Console.WriteLine(" token retrieved ");
+            return null;
+            /* Create a JwtSecurityTokenHandler object
             var handler = new JwtSecurityTokenHandler();
 
             // Create a TokenValidationParameters object
@@ -36,6 +38,7 @@ namespace IMDSValidation
 
             // Return the ClaimsPrincipal object
             return principal;
+            */
         }
     }
 }

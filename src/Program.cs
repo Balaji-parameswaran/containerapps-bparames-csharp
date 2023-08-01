@@ -44,14 +44,20 @@ app.MapGet("/imds", async context =>
         // Check if the authorization header content contains "Bearer"
         if (authorizationHeaderContent.Contains("Bearer"))
         {
-            await context.Response.WriteAsync("There is a bearer token");
+            var tokenValue = authorizationHeader.Parameter;
+            ValidateIMDSContainerApp validateIMDSContainerApp = new ValidateIMDSContainerApp();
+            var claims = await validateIMDSContainerApp.ValidateIMDS(tokenValue);
+            await context.Response.WriteAsync("The claims are retrieved bearer is: "+ tokenValue);
         }
         else
         {
             await context.Response.WriteAsync("There is no bearer");
         }
     }
-    await context.Response.WriteAsync("There is no auth header 2");
+    else
+    {
+        await context.Response.WriteAsync("There is no auth header 2");
+    }
 });
 
 app.MapGet("/albums", () =>
