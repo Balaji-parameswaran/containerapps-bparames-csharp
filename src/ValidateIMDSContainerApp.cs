@@ -5,7 +5,8 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace IMDSValidation
 {
-    class ValidateIMDSContainerApp {
+    class ValidateIMDSContainerApp
+    {
         public static ClaimsPrincipal ValidateIMDSContainerApp(string token)
         {
             // Create a JwtSecurityTokenHandler object
@@ -37,3 +38,4 @@ namespace IMDSValidation
             return principal;
         }
     }
+}
