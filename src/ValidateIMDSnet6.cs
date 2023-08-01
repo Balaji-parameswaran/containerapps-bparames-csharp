@@ -1,20 +1,22 @@
-using Microsoft.AzureData.DataProcessing.Logging;
-using Microsoft.AzureData.DataProcessing.Logging.Models;
-using Microsoft.AzureData.Tracing.Models;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Primitives;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading;
-using System.Threading.Tasks;
+
 
 namespace albumapi_csharp.Controllers
 {
+    using Microsoft.AzureData.DataProcessing.Logging;
+    using Microsoft.AzureData.DataProcessing.Logging.Models;
+    using Microsoft.AzureData.Tracing.Models;
+    using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Primitives;
+    using Microsoft.IdentityModel.Tokens;
+    using Newtonsoft.Json;
+    using System;
+    using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class ValidateIMDSnet6 : Attribute, IAsyncAuthorizationFilter
     {
         public async Task<ClaimsPrincipal> OnAuthorizationAsync(AuthorizationFilterContext context)
