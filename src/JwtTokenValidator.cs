@@ -47,8 +47,7 @@ namespace Microsoft.AzureData.DataProcessing.Security.AzureAD
                 catch (SecurityTokenException securityTokenException)
                 {
                     string errorMessage = "Failed to validate token. Invalid token provided.";
-                    logger.LogTelemetry(QosResult.BadRequest(QosOperationComponentName), errorMessage, securityTokenException);
-                    logger.LogError(securityTokenException, errorMessage);
+                    
                     TokenValidationResult result = new TokenValidationResult(400, securityTokenException.ToString());
                     return result;
                 }
