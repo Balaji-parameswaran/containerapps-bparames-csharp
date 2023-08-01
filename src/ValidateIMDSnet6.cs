@@ -1,17 +1,15 @@
+using Microsoft.AzureData.DataProcessing.Logging;
+using Microsoft.AzureData.DataProcessing.Logging.Models;
+using Microsoft.AzureData.Tracing.Models;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Azure.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Identity.ServiceEssentials;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,15 +17,16 @@ namespace albumapi_csharp.Controllers
 {
     public class ValidateIMDSnet6 : Attribute, IAsyncAuthorizationFilter
     {
-        public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
+        public async Task<ClaimsPrincipal> OnAuthorizationAsync(AuthorizationFilterContext context)
         {
             // Get the IMDS token from the header
             ClaimsPrincipal claims = null;
+            var imdsToken = context.HttpContext.Request.Headers["Authorization"].FirstOrDefault();
 
             StringValues authorizationHeader;
             if (requestHeaders.TryGetValue("Authorization", out authorizationHeader))
             {
-                string authorizationHeaderContent = authorizationHeader.FirstOrDefault();
+                string authorizationHeaderContent = imdsToken;
                 if (!string.IsNullOrEmpty(authorizationHeaderContent) && authorizationHeaderContent.Contains("Bearer", StringComparison.InvariantCultureIgnoreCase))
                 {
 
