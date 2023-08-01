@@ -7,7 +7,7 @@ namespace IMDSValidation
 {
     class ValidateIMDSContainerApp
     {
-        public static ClaimsPrincipal ValidateIMDSContainerApp(string token)
+        public static ClaimsPrincipal ValidateIMDS(string token)
         {
             // Create a JwtSecurityTokenHandler object
             var handler = new JwtSecurityTokenHandler();
