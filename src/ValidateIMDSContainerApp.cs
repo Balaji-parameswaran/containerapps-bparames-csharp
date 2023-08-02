@@ -12,7 +12,44 @@ namespace IMDSValidation
     {
         public async Task<ClaimsPrincipal> ValidateIMDS(string token)
         {
-            Console.WriteLine(" token retrieved ");
+            Console.WriteLine(" token retrieved " + token);
+            // Get the OpenID Connect discovery document URL
+            string discoveryUrl = "https://login.microsoftonline.com/common/.well-known/openid-configuration";
+
+            // Get the configuration manager for the discovery document
+            IConfigurationManager<OpenIdConnectConfiguration> configurationManager = new ConfigurationManager<OpenIdConnectConfiguration>(discoveryUrl, new OpenIdConnectConfigurationRetriever());
+
+            // Get the OpenID Connect configuration
+            OpenIdConnectConfiguration openIdConfig = await configurationManager.GetConfigurationAsync();
+
+            // Get the signing keys from the configuration
+            var signingKeys = openIdConfig.SigningKeys;
+
+            // Create a token validation parameters object
+            TokenValidationParameters validationParameters = new TokenValidationParameters
+            {
+                // Validate the token signature using the signing keys
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKeys = signingKeys,
+
+                // Validate the token issuer (optional)
+                ValidateIssuer = true,
+                ValidIssuer = "https://sts.windows.net/d4b18649-98b0-442a-8b30-98610cd27891/",
+
+                // Validate the token audience (optional)
+                ValidateAudience = true,
+                ValidAudience = "https://vault.azure.net",
+
+                // Validate the token expiration
+                ValidateLifetime = true,
+
+                // Allow some clock skew
+                ClockSkew = TimeSpan.FromMinutes(5)
+            };
+
+            // Create a JWT security token handler
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            Console.WriteLine(" All declaration done ");
             return null;
             /* Create a JwtSecurityTokenHandler object
             var handler = new JwtSecurityTokenHandler();
