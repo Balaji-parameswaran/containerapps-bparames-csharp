@@ -56,6 +56,7 @@ app.MapGet("/imds", async context =>
                 var bearerToken = parts[1];
                 ValidateIMDSContainerApp validateIMDSContainerApp = new ValidateIMDSContainerApp();
                 Console.WriteLine(" CAlling done for validateimds cs file ");
+                await validateIMDSContainerApp.ValidateIMDS(bearerToken);
                 // Use the bearer token as needed
                 await context.Response.WriteAsync("There is a bearer token - bearer token: " + bearerToken);
             }
