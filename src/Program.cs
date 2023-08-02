@@ -54,8 +54,12 @@ app.MapGet("/imds", async context =>
                 var bearerToken = parts[1];
 
                 // Use the bearer token as needed
+                await context.Response.WriteAsync("There is a bearer token - bearer token: " + bearerToken);
             }
-            await context.Response.WriteAsync("There is a bearer token - bearer token: " + bearerToken);
+            else
+            {
+                await context.Response.WriteAsync("There is no bearer token ");
+            }
         }
         else
         {
