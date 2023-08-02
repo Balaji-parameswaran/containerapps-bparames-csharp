@@ -1,4 +1,4 @@
-using IMDSValidation
+using IMDSValidation;
 
 var builder = WebApplication.CreateBuilder();
 
