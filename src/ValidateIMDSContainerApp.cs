@@ -12,7 +12,7 @@ namespace IMDSValidation
     {
         public async Task<ClaimsPrincipal> ValidateIMDS(string token)
         {
-            Console.WriteLine(" token retrieved " + token);
+            Console.WriteLine("Bearer token retrieved " + token);
             // Get the OpenID Connect discovery document URL
             string discoveryUrl = "https://login.microsoftonline.com/common/.well-known/openid-configuration";
 
@@ -49,7 +49,7 @@ namespace IMDSValidation
 
             // Create a JWT security token handler
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            Console.WriteLine(" All declaration done ");
+            Console.WriteLine("-------- Token handler initialized ------ ");
             try
             {
                 // Validate the token using the validation parameters
@@ -62,6 +62,8 @@ namespace IMDSValidation
                 {
                     throw new Exception("The token is not a valid JWT token");
                 }
+                Console.WriteLine("validated the token against audience: " + ValidAudience + " ValidIssuer: " + ValidIssuer)
+
                 // Read the xms_mirid claim from the token
                 var xmsMiridClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "xms_mirid");
 
