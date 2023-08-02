@@ -44,10 +44,18 @@ app.MapGet("/imds", async context =>
         // Check if the authorization header content contains "Bearer"
         if (authorizationHeaderContent.Contains("Bearer"))
         {
-            var tokenValue = authorizationHeader.Parameter;
-            ValidateIMDSContainerApp validateIMDSContainerApp = new ValidateIMDSContainerApp();
-            var claims = await validateIMDSContainerApp.ValidateIMDS(tokenValue);
-            await context.Response.WriteAsync("The claims are retrieved bearer is: "+ tokenValue);
+            // Split the authorization header content by space
+            var parts = authorizationHeaderContent.Split(' ');
+
+            // Check if the parts array has two elements
+            if (parts.Length == 2)
+            {
+                // Get the second element as the bearer token
+                var bearerToken = parts[1];
+
+                // Use the bearer token as needed
+            }
+            await context.Response.WriteAsync("There is a bearer token - bearer token: " + bearerToken);
         }
         else
         {
