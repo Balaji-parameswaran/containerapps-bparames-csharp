@@ -62,7 +62,7 @@ namespace IMDSValidation
                 {
                     throw new Exception("The token is not a valid JWT token");
                 }
-                Console.WriteLine("validated the token against audience: " + ValidAudience + " ValidIssuer: " + ValidIssuer)
+                Console.WriteLine("validated the token against audience: " + ValidAudience + " ValidIssuer: " + ValidIssuer);
 
                 // Read the xms_mirid claim from the token
                 var xmsMiridClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "xms_mirid");
