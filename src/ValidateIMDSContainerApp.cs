@@ -50,6 +50,23 @@ namespace IMDSValidation
             // Create a JWT security token handler
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             Console.WriteLine(" All declaration done ");
+            try
+            {
+                // Validate the token using the validation parameters
+                var claimsPrincipal = tokenHandler.ValidateToken(imdsToken, validationParameters, out SecurityToken validatedToken);
+
+                // Read the JWT security token
+                var jwtToken = validatedToken as JwtSecurityToken;
+
+                if (jwtToken == null)
+                {
+                    throw new Exception("The token is not a valid JWT token");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
             return null;
             /* Create a JwtSecurityTokenHandler object
             var handler = new JwtSecurityTokenHandler();
