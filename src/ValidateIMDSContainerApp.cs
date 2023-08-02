@@ -38,7 +38,7 @@ namespace IMDSValidation
 
                 // Validate the token audience (optional)
                 ValidateAudience = true,
-                ValidAudience = "https://vault.azure.net",
+                ValidAudience = "https://storage.azure.com/",
 
                 // Validate the token expiration
                 ValidateLifetime = true,
