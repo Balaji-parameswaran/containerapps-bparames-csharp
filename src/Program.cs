@@ -58,7 +58,7 @@ app.MapGet("/imds", async context =>
                 Console.WriteLine(" Calling validateimds to validate the IMDS token sent in the request ");
                 await validateIMDSContainerApp.ValidateIMDS(bearerToken);
                 // Use the bearer token as needed
-                await context.Response.WriteAsync("The Token is validated and contains xms_mirid value");
+                await context.Response.WriteAsync("Valid IMDS complete ");
             }
             else
             {
