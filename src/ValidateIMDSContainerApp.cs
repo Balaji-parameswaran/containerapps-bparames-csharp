@@ -50,6 +50,7 @@ namespace IMDSValidation
             // Create a JWT security token handler
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             Console.WriteLine("-------- Token handler initialized ------ ");
+            var xmsMiridValue = null;
             try
             {
                 // Validate the token using the validation parameters
@@ -73,7 +74,7 @@ namespace IMDSValidation
                 }
 
                 // Get the xms_mirid claim value
-                var xmsMiridValue = xmsMiridClaim.Value;
+                xmsMiridValue = xmsMiridClaim.Value;
 
                 Console.WriteLine($"The xms_mirid claim value is: {xmsMiridValue}");
             }
