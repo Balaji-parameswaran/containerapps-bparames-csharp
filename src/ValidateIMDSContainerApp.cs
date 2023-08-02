@@ -53,7 +53,7 @@ namespace IMDSValidation
             try
             {
                 // Validate the token using the validation parameters
-                var claimsPrincipal = tokenHandler.ValidateToken(imdsToken, validationParameters, out SecurityToken validatedToken);
+                var claimsPrincipal = tokenHandler.ValidateToken(token, validationParameters, out SecurityToken validatedToken);
 
                 // Read the JWT security token
                 var jwtToken = validatedToken as JwtSecurityToken;
