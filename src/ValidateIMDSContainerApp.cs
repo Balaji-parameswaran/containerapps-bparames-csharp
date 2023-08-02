@@ -34,7 +34,7 @@ namespace IMDSValidation
 
                 // Validate the token issuer (optional)
                 ValidateIssuer = true,
-                ValidIssuer = "https://sts.windows.net/d4b18649-98b0-442a-8b30-98610cd27891/",
+                ValidIssuer = "https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/",
 
                 // Validate the token audience (optional)
                 ValidateAudience = true,
@@ -62,6 +62,18 @@ namespace IMDSValidation
                 {
                     throw new Exception("The token is not a valid JWT token");
                 }
+                // Read the xms_mirid claim from the token
+                var xmsMiridClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "xms_mirid");
+
+                if (xmsMiridClaim == null)
+                {
+                    throw new Exception("The token does not contain the xms_mirid claim");
+                }
+
+                // Get the xms_mirid claim value
+                var xmsMiridValue = xmsMiridClaim.Value;
+
+                Console.WriteLine($"The xms_mirid claim value is: {xmsMiridValue}");
             }
             catch (Exception ex)
             {
