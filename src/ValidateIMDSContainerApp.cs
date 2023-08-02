@@ -20,7 +20,7 @@ namespace IMDSValidation
             IConfigurationManager<OpenIdConnectConfiguration> configurationManager = new ConfigurationManager<OpenIdConnectConfiguration>(discoveryUrl, new OpenIdConnectConfigurationRetriever());
 
             // Get the OpenID Connect configuration
-            OpenIdConnectConfiguration openIdConfig = await configurationManager.GetConfigurationAsync();
+            OpenIdConnectConfiguration openIdConfig = await configurationManager.GetConfigurationAsync(CancellationToken.None);
 
             // Get the signing keys from the configuration
             var signingKeys = openIdConfig.SigningKeys;
