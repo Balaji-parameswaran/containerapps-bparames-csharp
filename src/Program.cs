@@ -76,6 +76,50 @@ app.MapGet("/imds", async context =>
     }
 });
 
+app.MapPost("/imdspost", async context =>
+{
+    // Get the Authorization header
+    var authorizationHeader = context.Request.Headers.Authorization;
+
+    // Check if the Authorization header is not null and has a value
+    if (!String.IsNullOrEmpty(authorizationHeader))
+    {
+        // Get the authorization header content
+        var authorizationHeaderContent = authorizationHeader.ToString();
+
+        // Check if the authorization header content contains "Bearer"
+        if (authorizationHeaderContent.Contains("Bearer"))
+        {
+            // Split the authorization header content by space
+            var parts = authorizationHeaderContent.Split(' ');
+
+            // Check if the parts array has two elements
+            if (parts.Length == 2)
+            {
+                // Get the second element as the bearer token
+                var bearerToken = parts[1];
+                ValidateIMDSContainerApp validateIMDSContainerApp = new ValidateIMDSContainerApp();
+                Console.WriteLine(" Call validateimds to validate the token ");
+                await validateIMDSContainerApp.ValidateIMDS(bearerToken);
+                // Use the bearer token as needed
+                await context.Response.WriteAsync("There is a bearer token and it is validated");
+            }
+            else
+            {
+                await context.Response.WriteAsync("There is no bearer token ");
+            }
+        }
+        else
+        {
+            await context.Response.WriteAsync("There is no bearer");
+        }
+    }
+    else
+    {
+        await context.Response.WriteAsync("There is no auth header 2");
+    }
+});
+
 app.MapGet("/albums", () =>
 {
     return Album.GetAll();
