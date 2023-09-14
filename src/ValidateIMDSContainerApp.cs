@@ -80,6 +80,7 @@ namespace IMDSValidation
             catch (Exception ex)
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
+                throw new Exception($"An error occurred: {ex.Message}");
             }
             return null;
             /* Create a JwtSecurityTokenHandler object

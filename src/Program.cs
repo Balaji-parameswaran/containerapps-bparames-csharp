@@ -103,6 +103,9 @@ app.MapPost("/imdspost", async context =>
                 await validateIMDSContainerApp.ValidateIMDS(bearerToken);
                 // Use the bearer token as needed
                 await context.Response.WriteAsync("There is a bearer token and it is validated");
+                var json = await new StreamReader(context.Request.Body).ReadToEndAsync();
+                // Now you can use 'json' in your code.
+                await context.Response.WriteAsync($"There is a bearer token and it is validated \n POST request received at the / endpoint with body: {json}");
             }
             else
             {
